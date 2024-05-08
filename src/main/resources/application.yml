@@ -7,3 +7,8 @@ spring:
     username: root
     password: helloworld
 
+server:
+  port: 8080
+  address: localhost
+
+
