@@ -1,4 +1,6 @@
-package com.example.backend.Entity;
+package com.example.backend.entity;
+
+import java.util.Objects;
 
 public class User {
     private Integer id;
@@ -8,15 +10,17 @@ public class User {
     private String phone;
     private String password;
 
+    private String email;
     public User() {}
 
-    public User(Integer id, String name, Short age, Short gender, String phone, String password) {
+    public User(Integer id, String name, Short age, Short gender, String phone, String password, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.phone = phone;
         this.password = password;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -65,6 +69,28 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(age, user.age) && Objects.equals(gender, user.gender) && Objects.equals(phone, user.phone) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, gender, phone, password, email);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -74,6 +100,7 @@ public class User {
                 ", gender=" + gender +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

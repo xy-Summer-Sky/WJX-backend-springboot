@@ -1,6 +1,6 @@
-package com.example.backend.mapper;
+package com.example.backend.DAO;
 import org.apache.ibatis.annotations.*;
-import com.example.backend.Entity.Survey;
+import com.example.backend.entity.Survey;
 import java.util.List;
 public interface SurveyMapper {
 

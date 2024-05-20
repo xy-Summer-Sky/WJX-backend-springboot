@@ -1,26 +1,39 @@
 package com.example.backend.controller;
-import com.example.backend.Entity.User;
+import com.example.backend.DTO.UserDTO;
 import com.example.backend.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 // 定义了UserController类，用于处理用户相关的请求。
-// 该类使用@RestController注解，表示它是一个控制器类，使用@Autowired注解注入了UserService类，用于处理业务逻辑。
-// 该类提供了两个请求处理方法：findById和save。findById方法用于根据用户ID查询用户信息，save方法用于保存用户信息。
+// 该类使用@RestController注解，表示它是一个控制器类
+
+@RequestMapping("/api/users")
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @RequestMapping("/findById")
-    public User findById(Integer id) {
-        return userService.findById(id);
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-     @RequestMapping("/save")
-    public int save(User user) {
-        return userService.insertUser(user);
+    // 定义了registerUser方法，用于处理用户注册请求。
+    // 该方法使用@PostMapping注解，表示它是一个HTTP POST请求处理方法。
+    // 该方法接收一个UserDTO对象作为参数，并调用UserService的registerUser方法来处理用户注册请求。
+    // 该方法返回一个 ResponseEntity 对象，其中包含注册成功或失败的消息。
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        String response = userService.registerUser(userDTO);
+        if ("User registered successfully.".equals(response)) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
 }
