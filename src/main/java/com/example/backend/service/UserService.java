@@ -4,15 +4,16 @@ import com.example.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.backend.DAO.UserDAO;
-
+import com.example.backend.config.SecurityConfig;
 @Service
 public class UserService {
 
     private final UserDAO userDAO;
-
+    private final SecurityConfig securityConfig;
     @Autowired
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, SecurityConfig securityConfig) {
         this.userDAO = userDAO;
+        this.securityConfig = securityConfig;
     }
 
     public String registerUser(UserDTO userDTO) {
@@ -27,7 +28,7 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
         // 密码加密
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(securityConfig.encodePassword(userDTO.getPassword()));
         userDAO.insertUser(user);
         return "User registered successfully.";
     }

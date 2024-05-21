@@ -18,4 +18,6 @@ public interface UserDAO {
 
     @Insert("INSERT INTO user (name, age, gender, phone, password, email) VALUES (#{name}, #{age}, #{gender}, #{phone}, #{password}, #{email})")
     int insertUser(User user);
+
+
 }
