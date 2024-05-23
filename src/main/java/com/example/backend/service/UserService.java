@@ -4,15 +4,18 @@ import com.example.backend.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.backend.DAO.UserDAO;
-
+import com.example.backend.config.passwordSecurityConfig;
+// User Service
+// This class is responsible for handling user related operations such as registration, login, logout, etc.
 @Service
 public class UserService {
 
     private final UserDAO userDAO;
-
+    private final passwordSecurityConfig passwordSecurityConfig;
     @Autowired
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, passwordSecurityConfig passwordSecurityConfig) {
         this.userDAO = userDAO;
+        this.passwordSecurityConfig = passwordSecurityConfig;
     }
 
     public String registerUser(UserDTO userDTO) {
@@ -27,10 +30,16 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
         // 密码加密
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordSecurityConfig.encodePassword(userDTO.getPassword()));
         userDAO.insertUser(user);
         return "User registered successfully.";
     }
 
+
+
+
+    public User findByEmail(String email){
+        return userDAO.findByEmail(email);
+    }
 
 }

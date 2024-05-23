@@ -1,8 +1,13 @@
 package com.example.backend.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.Objects;
 
+@Entity
 public class User {
+    @Id
     private Integer id;
     private String name;
     private Short age;
@@ -13,8 +18,9 @@ public class User {
     private String email;
     public User() {}
 
-    public User(Integer id, String name, Short age, Short gender, String phone, String password, String email) {
-        this.id = id;
+    private static int idGenerator = 0;
+    public User(String name, Short age, Short gender, String phone, String password, String email) {
+        this.id = idGenerator++;
         this.name = name;
         this.age = age;
         this.gender = gender;
