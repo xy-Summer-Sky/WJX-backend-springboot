@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserServiceInter{
         user.setGender(userDTO.getGender());
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
+
         // 密码加密
         user.setPassword(securityConfig.encodePassword(userDTO.getPassword()));
         userDAO.insertUser(user);
