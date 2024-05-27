@@ -67,4 +67,7 @@ public class UserDto {
         this.email = email;
     }
 
+    public void setUsername(String testUser) {
+        this.name = testUser;
+    }
 }

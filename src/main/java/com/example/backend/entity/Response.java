@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name="options")
+@Table(name="responses")
 public class Response implements Serializable {
     /**
      *

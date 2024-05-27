@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.SurveyDto;
+import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.SurveyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/surveys")
-public class SurveyController {
+public class SurveyController extends SecurityConfig {
 
     @Autowired
     private SurveyServiceImpl surveyService;

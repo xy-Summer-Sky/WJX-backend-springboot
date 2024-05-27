@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.ResponseDto;
+import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.ResponseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/responses")
-public class ResponseController {
+public class ResponseController extends SecurityConfig {
 
     @Autowired
     private ResponseServiceImpl responseServiceImpl;

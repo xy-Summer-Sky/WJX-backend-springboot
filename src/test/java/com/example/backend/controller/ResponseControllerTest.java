@@ -46,9 +46,9 @@ public class ResponseControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/responses/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":1,\"question_id\":1,\"responseText\":\"Response 1\"}"))
+                        .content("{\"id\":1,\"question_id\":1,\"answerText\":\"Response 1\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseText").value("Response 1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.answerText").value("Response 1"));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ResponseControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/responses/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].responseText").value("Response 1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].answerText").value("Response 1"));
     }
 
     @Test
