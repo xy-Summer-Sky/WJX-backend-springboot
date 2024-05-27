@@ -1,24 +1,23 @@
 package com.example.backend.service;
-import com.example.backend.DTO.UserDTO;
+import com.example.backend.DTO.UserDto;
 import com.example.backend.entity.User;
+import com.example.backend.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.backend.DAO.UserDAO;
-import com.example.backend.config.passwordSecurityConfig;
-// User Service
-// This class is responsible for handling user related operations such as registration, login, logout, etc.
+import com.example.backend.config.SecurityConfig;
 @Service
-public class UserService {
+public class UserServiceImpl implements UserServiceInter{
 
-    private final UserDAO userDAO;
-    private final passwordSecurityConfig passwordSecurityConfig;
+    private UserMapper userDAO = null;
+    private SecurityConfig securityConfig = null;
     @Autowired
-    public UserService(UserDAO userDAO, passwordSecurityConfig passwordSecurityConfig) {
+    public UserServiceImpl(UserMapper userDAO, SecurityConfig securityConfig) {
         this.userDAO = userDAO;
-        this.passwordSecurityConfig = passwordSecurityConfig;
+        this.securityConfig = securityConfig;
     }
 
-    public String registerUser(UserDTO userDTO) {
+    @Override
+    public String registerUser(UserDto userDTO) {
         User existingUser = userDAO.findByEmail(userDTO.getEmail());
         if (existingUser!= null) {
             return "User with email " + userDTO.getEmail() + " already exists.";
@@ -30,16 +29,10 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
         // 密码加密
-        user.setPassword(passwordSecurityConfig.encodePassword(userDTO.getPassword()));
+        user.setPassword(securityConfig.encodePassword(userDTO.getPassword()));
         userDAO.insertUser(user);
         return "User registered successfully.";
     }
 
-
-
-
-    public User findByEmail(String email){
-        return userDAO.findByEmail(email);
-    }
 
 }
