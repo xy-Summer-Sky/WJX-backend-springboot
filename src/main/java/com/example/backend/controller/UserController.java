@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 import com.example.backend.DTO.UserDto;
+import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/users")
 @RestController
-public class UserController {
+public class UserController extends SecurityConfig {
 
     private final UserServiceImpl userService;
 

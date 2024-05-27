@@ -5,12 +5,12 @@ import com.example.backend.service.OptionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import  com.example.backend.config.SecurityConfig;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/options")
-public class OptionController {
+public class OptionController extends SecurityConfig{
 
     @Autowired
     private OptionServiceImpl optionServiceImpl;

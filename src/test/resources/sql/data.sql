@@ -42,7 +42,7 @@ INSERT INTO options (option_text, question_id) VALUES
 
 -- Insert into `responses` table
 INSERT INTO responses (answer_text, question_id) VALUES
-                                                     ('Option 1', @questionId1),
-                                                     ('Option 3', @questionId2),
-                                                     ('Option 5', @questionId3),
-                                                     ('Option 7', @questionId4);
+                                                     ('Option', @questionId1),
+                                                     ('Option', @questionId2),
+                                                     ('Option', @questionId3),
+                                                     ('Option', @questionId4);

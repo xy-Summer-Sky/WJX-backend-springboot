@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 
 import com.example.backend.DTO.OptionDto;
+import com.example.backend.config.SecurityConfig;
 import com.example.backend.entity.Question;
 import com.example.backend.service.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/surveys/{surveyId}/questions")
-public class QuestionController {
+public class QuestionController extends SecurityConfig {
     @Autowired
     private QuestionServiceImpl questionServiceImpl;
 
