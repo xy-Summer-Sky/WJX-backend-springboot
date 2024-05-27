@@ -6,9 +6,9 @@ import com.example.backend.service.ResponseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+//ResponseController类是一个控制器类，用于处理回复相关的HTTP请求。
 @RestController
 @RequestMapping("/api/responses")
 public class ResponseController extends SecurityConfig {

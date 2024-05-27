@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+//QuestionController类是一个控制器类，用于处理问题相关的HTTP请求。
 @RestController
 @RequestMapping("/api/surveys/{surveyId}/questions")
 public class QuestionController extends SecurityConfig {

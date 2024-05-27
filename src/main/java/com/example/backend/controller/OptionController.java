@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import  com.example.backend.config.SecurityConfig;
 import java.util.List;
 
+//OptionController类是一个控制器类，用于处理选项相关的HTTP请求。
 @RestController
 @RequestMapping("/api/options")
 public class OptionController extends SecurityConfig{

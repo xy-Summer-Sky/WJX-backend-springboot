@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-// 定义了UserController类，用于处理用户相关的请求。
-// 该类使用@RestController注解，表示它是一个控制器类
 
+
+// UserController类是一个控制器类，用于处理用户相关的HTTP请求。
 @RequestMapping("/api/users")
 @RestController
 public class UserController extends SecurityConfig {
