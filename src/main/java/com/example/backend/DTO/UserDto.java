@@ -1,6 +1,6 @@
 package com.example.backend.DTO;
 
-public class UserDTO {
+public class UserDto {
     private String name;
     private Short age;
     private Short gender;
@@ -8,9 +8,9 @@ public class UserDTO {
     private String password;
 
     private String email;
-    public UserDTO() {}
+    public UserDto() {}
 
-    public UserDTO(String name, Short age, Short gender, String phone, String password, String email) {
+    public UserDto(String name, Short age, Short gender, String phone, String password, String email) {
         this.name = name;
         this.age = age;
         this.gender = gender;
