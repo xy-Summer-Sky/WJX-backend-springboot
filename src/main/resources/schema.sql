@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS surveys (
                                        title VARCHAR(255) NOT NULL,
                                        description TEXT,
                                        created_by INT,
-                                       FOREIGN KEY (created_by) REFERENCES users(id)
+                                       FOREIGN KEY (created_by) REFERENCES users(id),
+                                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create `questions` table

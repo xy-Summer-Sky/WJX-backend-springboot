@@ -8,6 +8,7 @@ import com.example.backend.entity.Survey;
 import com.example.backend.mapper.QuestionMapper;
 import com.example.backend.mapper.SurveyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +28,13 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         survey.setTitle(surveyDto.getTitle());
         survey.setCreatedBy(surveyDto.getCreatedBy());
         survey.setDescription(surveyDto.getDescription());
+        survey.setCreatedAt(surveyDto.getCreatedAt());
         return survey;
     }
 
     private SurveyDto convertSurveyToDto(Survey survey) {
         // 假设 Survey 有 getId(), getTitle(), getCreatedBy(), getDescription() 方法
-        return new SurveyDto(survey.getId(), survey.getTitle(), survey.getCreatedBy(), survey.getDescription());
+        return new SurveyDto(survey.getId(), survey.getTitle(), survey.getCreatedBy(), survey.getDescription(), survey.getCreatedAt());
     }
 
     private QuestionDto convertQuestionToDto(Question question) {
@@ -46,6 +48,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         question.setText(questionDto.getText());
         question.setType(questionDto.getType());
         question.setSurveyId(questionDto.getSurveyId());
+
         return question;
     }
 
@@ -109,4 +112,10 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     }
 
 
+    public List<SurveyDto> getSurveysByUserIdSorted(Long userId) {
+        Sort sort = Sort.by(Sort.Order.asc("createdAt"));
+        List<Survey> surveys = surveyMapper.selectByUserIdSorted(userId, sort);
+        return surveys.stream().map(this::convertSurveyToDto).collect(Collectors.toList());
+
+    }
 }

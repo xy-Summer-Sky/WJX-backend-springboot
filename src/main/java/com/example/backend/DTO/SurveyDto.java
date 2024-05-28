@@ -1,6 +1,7 @@
 package com.example.backend.DTO;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class SurveyDto implements Serializable {
@@ -8,16 +9,18 @@ public class SurveyDto implements Serializable {
     private String title;
     private Integer createdBy;
     private String description;
+    private Date createdAt;
 
     // Constructors
     public SurveyDto() {
     }
 
-    public SurveyDto(Long id, String title, Integer createdBy, String description) {
+    public SurveyDto(Long id, String title, Integer createdBy, String description, Date createdAt) {
         this.id = id;
         this.title = title;
         this.createdBy = createdBy;
         this.description = description;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
@@ -78,5 +81,13 @@ public class SurveyDto implements Serializable {
                 ", createdBy=" + createdBy +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

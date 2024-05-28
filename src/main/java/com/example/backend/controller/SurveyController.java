@@ -61,4 +61,11 @@ public class SurveyController extends SecurityConfig {
         surveyService.deleteSurvey(id);
         return ResponseEntity.ok().build();
     }
+
+    //根据用胡id获取所有问卷并且按照时间排序(按照时间从小到大)
+    @GetMapping("/user/{userId}/sorted")
+    public ResponseEntity<List<SurveyDto>> getSurveysByUserIdSorted(@PathVariable Long userId) {
+        List<SurveyDto> surveys = surveyService.getSurveysByUserIdSorted(userId);
+        return ResponseEntity.ok(surveys);
+    }
 }

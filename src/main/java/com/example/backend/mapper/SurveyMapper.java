@@ -5,6 +5,7 @@ import com.example.backend.entity.Survey;
 import com.example.backend.entity.SurveyExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -128,4 +129,6 @@ public interface SurveyMapper {
     List<Survey> selectAll();
 
     List<Survey> selectByUserId(Long userId);
+
+    List<Survey> selectByUserIdSorted(Long userId, Sort createdAt);
 }

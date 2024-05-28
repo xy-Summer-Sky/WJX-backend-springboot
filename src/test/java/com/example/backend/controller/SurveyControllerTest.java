@@ -31,7 +31,7 @@ public class SurveyControllerTest {
     @BeforeEach
     @Sql(scripts = "classpath:/sql/data.sql")
     public void setup() {
-        surveyDto = new SurveyDto(1L, "Test Survey", 1, "Test Description");
+        surveyDto = new SurveyDto(1L, "Test Survey", 1, "Test Description", null);
     }
     @AfterEach
     @Sql(scripts = "classpath:/sql/cleanup.sql")
@@ -92,6 +92,15 @@ public class SurveyControllerTest {
         Mockito.when(surveyService.getSurveysByUserId(1L)).thenReturn(Collections.singletonList(surveyDto));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/surveys/user/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Test Survey"));
+    }
+
+    @Test
+    public void testGetSurveysByUserIdSorted() throws Exception {
+        Mockito.when(surveyService.getSurveysByUserIdSorted(1L)).thenReturn(Collections.singletonList(surveyDto));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/surveys/user/1/sorted"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Test Survey"));
     }

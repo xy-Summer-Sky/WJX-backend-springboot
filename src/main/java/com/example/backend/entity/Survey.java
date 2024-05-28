@@ -1,11 +1,10 @@
 package com.example.backend.entity;
 
 import com.example.backend.DTO.SurveyDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name="surveys")
@@ -53,6 +52,10 @@ public class Survey extends SurveyDto implements Serializable {
      *
      * @mbg.generated Mon May 27 17:12:41 CST 2024
      */
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
     private static final long serialVersionUID = 1L;
 
     public Survey(Object o, String employeeEngagement, String yearlyEngagementSurvey) {
@@ -60,6 +63,13 @@ public class Survey extends SurveyDto implements Serializable {
 
     public Survey() {
 
+    }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     /**

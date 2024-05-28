@@ -8,9 +8,10 @@ SET @userId1 = (SELECT id FROM users WHERE email = 'john.doe@example.com');
 SET @userId2 = (SELECT id FROM users WHERE email = 'jane.doe@example.com');
 
 -- Insert into `surveys` table
-INSERT INTO surveys (title, description, created_by) VALUES
-                                                         ('Survey 1', 'This is survey 1', @userId1),
-                                                         ('Survey 2', 'This is survey 2', @userId2);
+INSERT INTO surveys (title, description, created_by,created_at) VALUES
+                                                         ('Survey 1', 'This is survey 1', @userId1, NOW()),
+                                                         ('Survey 2', 'This is survey 2', @userId2, NOW());
+
 
 -- Get IDs of newly inserted surveys
 SET @surveyId1 = (SELECT id FROM surveys WHERE title = 'Survey 1');
