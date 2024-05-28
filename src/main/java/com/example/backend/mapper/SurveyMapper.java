@@ -122,11 +122,10 @@ public interface SurveyMapper {
      */
     int updateByPrimaryKey(Survey record);
 
-    Survey findById(Long id);
-
     void update(Survey existingSurvey);
 
-    int deleteById(Long id);
 
     List<Survey> selectAll();
+
+    List<Survey> selectByUserId(Long userId);
 }

@@ -86,4 +86,13 @@ public class SurveyControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/surveys/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void testGetSurveysByUserId() throws Exception {
+        Mockito.when(surveyService.getSurveysByUserId(1L)).thenReturn(Collections.singletonList(surveyDto));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/surveys/user/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Test Survey"));
+    }
 }

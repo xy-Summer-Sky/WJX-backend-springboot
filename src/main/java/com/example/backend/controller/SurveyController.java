@@ -3,9 +3,9 @@ package com.example.backend.controller;
 import com.example.backend.DTO.SurveyDto;
 import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.SurveyServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 //
@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/surveys")
 public class SurveyController extends SecurityConfig {
 
-    @Autowired
-    private SurveyServiceImpl surveyService;
+    private final SurveyServiceImpl surveyService;
+
+    public SurveyController(SurveyServiceImpl surveyService) {
+        this.surveyService = surveyService;
+    }
 
     //问卷的增加
     @PostMapping
@@ -36,6 +39,13 @@ public class SurveyController extends SecurityConfig {
     public ResponseEntity<SurveyDto> getSurveyById(@PathVariable Long id) {
         SurveyDto survey = surveyService.getSurveyById(id);
         return ResponseEntity.ok(survey);
+    }
+
+    //根据用户id获取所有问卷
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<SurveyDto>> getSurveysByUserId(@PathVariable Long userId) {
+        List<SurveyDto> surveys = surveyService.getSurveysByUserId(userId);
+        return ResponseEntity.ok(surveys);
     }
 
     //根据问卷id的更新

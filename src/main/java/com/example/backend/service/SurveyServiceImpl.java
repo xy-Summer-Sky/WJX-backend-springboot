@@ -101,4 +101,12 @@ public class SurveyServiceImpl implements SurveyServiceInter {
 
         return null;
     }
+
+
+    public List<SurveyDto> getSurveysByUserId(Long userId) {
+        List<Survey> surveys = surveyMapper.selectByUserId(userId);
+        return surveys.stream().map(this::convertSurveyToDto).collect(Collectors.toList());
+    }
+
+
 }
