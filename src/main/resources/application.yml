@@ -20,7 +20,7 @@ spring:
           hibernate:
             dialect:
               MySQL8Dialect: org.hibernate.dialect.MySQL8Dialect
-
+    open-in-view: true
 
 
   sql:
@@ -32,6 +32,8 @@ spring:
       schema-locations: classpath:schema.sql
 #      data-locations: classpath:sql/data.sql
 
+  thymeleaf:
+    check-template-location: false
 
 
 mybatis:
