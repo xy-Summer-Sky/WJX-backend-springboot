@@ -37,4 +37,11 @@ public class UserController extends SecurityConfig {
         }
     }
 
+    //根据邮箱获取用户id
+    @PostMapping("/getUserId")
+    public ResponseEntity<Long> getUserId(@RequestBody String email) {
+        Integer userId = userService.getUserId(email);
+        return ResponseEntity.ok(Long.valueOf(userId));
+    }
+
 }

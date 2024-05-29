@@ -39,4 +39,11 @@ public class UserServiceImpl implements UserServiceInter {
     }
 
 
+    public Integer getUserId(String email) {
+        User user = userDAO.findByEmail(email);
+        if (user == null) {
+            return null;
+        }
+        return user.getId();
+    }
 }
