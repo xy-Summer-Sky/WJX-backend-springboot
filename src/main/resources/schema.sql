@@ -1,3 +1,14 @@
+-- Create `users` table
+CREATE TABLE IF NOT EXISTS users (
+                                     id INT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(255) NOT NULL,
+                                     age SMALLINT,
+                                     gender SMALLINT,
+                                     phone VARCHAR(20),
+                                     password VARCHAR(255) NOT NULL,
+                                     email VARCHAR(255) UNIQUE NOT NULL
+);
+
 -- Create `surveys` table
 CREATE TABLE IF NOT EXISTS surveys (
                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -33,14 +44,4 @@ CREATE TABLE IF NOT EXISTS responses (
                                          FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
--- Create `users` table
-CREATE TABLE IF NOT EXISTS users (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     name VARCHAR(255) NOT NULL,
-                                     age SMALLINT,
-                                     gender SMALLINT,
-                                     phone VARCHAR(20),
-                                     password VARCHAR(255) NOT NULL,
-                                     email VARCHAR(255) UNIQUE NOT NULL
-);
 

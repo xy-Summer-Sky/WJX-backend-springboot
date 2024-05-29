@@ -50,4 +50,12 @@ public class OptionController extends SecurityConfig{
         optionServiceImpl.deleteOption(id);
         return ResponseEntity.ok().build();
     }
+
+    //根据问题id获取选项
+    @CrossOrigin(origins = "http://localhost:8081")
+    @GetMapping("/question/{questionId}")
+    public ResponseEntity<List<OptionDto>> getOptionsByQuestionId(@PathVariable Long questionId) {
+        List<OptionDto> options = optionServiceImpl.getOptionsByQuestionId(questionId);
+        return ResponseEntity.ok(options);
+    }
 }

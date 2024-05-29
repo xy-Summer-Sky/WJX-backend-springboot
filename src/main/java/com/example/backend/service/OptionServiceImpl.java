@@ -73,4 +73,11 @@ public class OptionServiceImpl implements OptionServiceInter {
         optionMapper.insert(option);
         return optionDto;
     }
+
+    public List<OptionDto> getOptionsByQuestionId(Long questionId) {
+        OptionExample example = new OptionExample();
+        example.createCriteria().andQuestionIdEqualTo(questionId);
+        List<Option> options = optionMapper.selectByExample(example);
+        return options.stream().map(option -> new OptionDto(option.getId(), option.getOptionText(), option.getQuestionId())).collect(Collectors.toList());
+    }
 }
