@@ -19,6 +19,7 @@ public class QuestionController extends SecurityConfig {
     private QuestionServiceImpl questionServiceImpl;
 
     //给某个问卷添加问题
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping
     public ResponseEntity<Question> addQuestion(@PathVariable Long surveyId, @RequestBody Question question) {
         question.setSurveyId(surveyId);
@@ -27,6 +28,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问题id获取问题
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{questionId}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long questionId) {
         Question question = questionServiceImpl.getQuestionById(questionId);
@@ -34,6 +36,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问卷id获取所有问题
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping
     public ResponseEntity<List<Question>> getAllQuestionsBySurveyId(@PathVariable Long surveyId) {
         List<Question> questions = questionServiceImpl.getAllQuestionsBySurveyId(surveyId);
@@ -41,6 +44,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问题id更新问题
+    @CrossOrigin(origins = "http://localhost:8081")
     @PutMapping("/{questionId}")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long questionId, @RequestBody Question question) {
         question.setId(questionId);
@@ -49,6 +53,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问题id删除问题
+    @CrossOrigin(origins = "http://localhost:8081")
     @DeleteMapping("/{questionId}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long questionId) {
         questionServiceImpl.deleteQuestion(questionId);
@@ -56,6 +61,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问题id获取问题的选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{questionId}/options")
     public ResponseEntity<List<OptionDto>> getOptionsForQuestion(@PathVariable Long questionId) {
         List<OptionDto> options = questionServiceImpl.getOptionsForQuestion(questionId);
@@ -63,6 +69,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //给问题添加选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/{questionId}/options")
     public ResponseEntity<OptionDto> addOption(@PathVariable Long questionId, @RequestBody OptionDto option) {
         option.setQuestionId(questionId);
@@ -71,6 +78,7 @@ public class QuestionController extends SecurityConfig {
     }
 
     //根据问题id和选项id更新选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @PutMapping("/{questionId}/options/{optionId}")
     public ResponseEntity<OptionDto> updateOption(@PathVariable Long questionId, @PathVariable Long optionId, @RequestBody OptionDto option) {
         option.setQuestionId(questionId);

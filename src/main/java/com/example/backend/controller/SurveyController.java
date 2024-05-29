@@ -20,6 +20,7 @@ public class SurveyController extends SecurityConfig {
     }
 
     //问卷的增加
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
         SurveyDto createdSurvey = surveyService.createSurvey(surveyDto);
@@ -27,6 +28,7 @@ public class SurveyController extends SecurityConfig {
     }
 
     //所有问卷的获取
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping
     public ResponseEntity<List<SurveyDto>> getAllSurveys() {
         List<SurveyDto> surveys = surveyService.getAllSurveys();

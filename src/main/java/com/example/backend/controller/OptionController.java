@@ -17,6 +17,7 @@ public class OptionController extends SecurityConfig{
     private OptionServiceImpl optionServiceImpl;
 
     //给某个问题添加选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/{questionId}")
     public ResponseEntity<OptionDto> addOptionToQuestion(@PathVariable Long questionId, @RequestBody OptionDto optionDto) {
         OptionDto createdOption = optionServiceImpl.addOptionToQuestion(questionId, optionDto);
@@ -24,6 +25,7 @@ public class OptionController extends SecurityConfig{
     }
 
     //根据选项id获取选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{questionId}")
     public ResponseEntity<List<OptionDto>> getOptionsForQuestion(@PathVariable Long questionId) {
         List<OptionDto> options = optionServiceImpl.getOptionsForQuestion(questionId);
@@ -31,6 +33,7 @@ public class OptionController extends SecurityConfig{
     }
 
     //根据选项id更新选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @PutMapping("/{id}")
     public ResponseEntity<OptionDto> updateOption(@PathVariable Long id, @RequestBody OptionDto optionDto) {
         OptionDto updatedOption = optionServiceImpl.updateOption(id, optionDto);
@@ -38,6 +41,7 @@ public class OptionController extends SecurityConfig{
     }
 
     //根据选项id删除选项
+    @CrossOrigin(origins = "http://localhost:8081")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOption(@PathVariable Long id) {
         optionServiceImpl.deleteOption(id);
