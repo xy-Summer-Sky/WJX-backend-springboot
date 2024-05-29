@@ -1,11 +1,11 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.OptionDto;
+import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.OptionServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import  com.example.backend.config.SecurityConfig;
+
 import java.util.List;
 
 //OptionController类是一个控制器类，用于处理选项相关的HTTP请求。
@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/options")
 public class OptionController extends SecurityConfig{
 
-    @Autowired
-    private OptionServiceImpl optionServiceImpl;
+    private final OptionServiceImpl optionServiceImpl;
+
+    public OptionController(OptionServiceImpl optionServiceImpl) {
+        this.optionServiceImpl = optionServiceImpl;
+    }
 
     //给某个问题添加选项
     @CrossOrigin(origins = "http://localhost:8081")

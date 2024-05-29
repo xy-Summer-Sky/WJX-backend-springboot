@@ -9,8 +9,8 @@ import com.example.backend.config.SecurityConfig;
 @Service
 public class UserServiceImpl implements UserServiceInter {
 
-    private UserMapper userDAO = null;
-    private SecurityConfig securityConfig = null;
+    private final UserMapper userDAO;
+    private final SecurityConfig securityConfig;
     @Autowired
     public UserServiceImpl(UserMapper userDAO, SecurityConfig securityConfig) {
         this.userDAO = userDAO;
@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserServiceInter {
         user.setGender(userDTO.getGender());
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
+        user.setGender(userDTO.getGender());
+        user.setId(userDTO.getId());
 
         // 密码加密
         user.setPassword(securityConfig.encodePassword(userDTO.getPassword()));
@@ -45,5 +47,13 @@ public class UserServiceImpl implements UserServiceInter {
             return null;
         }
         return user.getId();
+    }
+
+    public UserDto getUserById(Integer id) {
+        User user = userDAO.selectByPrimaryKey(id);
+        if (user == null) {
+            return null;
+        }
+        return new UserDto(user.getId(), user.getName(), user.getAge(), user.getGender(), user.getPhone(), user.getPassword(), user.getEmail());
     }
 }

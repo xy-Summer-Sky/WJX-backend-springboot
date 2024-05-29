@@ -5,7 +5,6 @@ import com.example.backend.entity.Response;
 import com.example.backend.entity.ResponseExample;
 import com.example.backend.mapper.ResponseMapper;
 import com.example.backend.service.serviceInterface.ResponseServiceInter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class ResponseServiceImpl implements ResponseServiceInter {
-    @Autowired
-    private ResponseMapper responseMapper;
+    private final ResponseMapper responseMapper;
+
+    public ResponseServiceImpl(ResponseMapper responseMapper) {
+        this.responseMapper = responseMapper;
+    }
 
     public Response saveResponse(Response response) {
         responseMapper.insert(response);
@@ -33,8 +35,8 @@ public class ResponseServiceImpl implements ResponseServiceInter {
 
         Response response = new Response();
         response.setQuestionId(questionId);
-        response.setAnswerText(responseDto.getAnswerText());
-        response.setId(responseDto.getId());
+        response.setAnswerText(responseDto.answerText());
+        response.setId(responseDto.id());
         responseMapper.insert(response);
         return responseDto;}
 

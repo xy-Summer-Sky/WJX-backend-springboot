@@ -107,4 +107,6 @@ public interface UserMapper {
 
     @Insert("INSERT INTO users (name, age, gender, phone, password, email) VALUES (#{name}, #{age}, #{gender}, #{phone}, #{password}, #{email})")
     int insertUser(User user);
+
+
 }

@@ -5,18 +5,21 @@ import com.example.backend.DTO.OptionDto;
 import com.example.backend.config.SecurityConfig;
 import com.example.backend.entity.Question;
 import com.example.backend.service.QuestionServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 //QuestionController类是一个控制器类，用于处理问题相关的HTTP请求。
 @RestController
 @RequestMapping("/api/surveys/{surveyId}/questions")
 public class QuestionController extends SecurityConfig {
-    @Autowired
-    private QuestionServiceImpl questionServiceImpl;
+    private final QuestionServiceImpl questionServiceImpl;
+
+    public QuestionController(QuestionServiceImpl questionServiceImpl) {
+        this.questionServiceImpl = questionServiceImpl;
+    }
 
     //给某个问卷添加问题
     @CrossOrigin(origins = "http://localhost:8081")
@@ -71,7 +74,7 @@ public class QuestionController extends SecurityConfig {
     //给问题添加选项
     @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/{questionId}/options")
-    public ResponseEntity<OptionDto> addOption(@PathVariable Long questionId, @RequestBody OptionDto option) {
+    public ResponseEntity<OptionDto> addOption(@PathVariable Long questionId, @RequestBody OptionDto option, @PathVariable String surveyId) {
         option.setQuestionId(questionId);
         OptionDto newOption = questionServiceImpl.addOption(option);
         return new ResponseEntity<>(newOption, HttpStatus.CREATED);

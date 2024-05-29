@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.DTO.LoginDto;
 import com.example.backend.DTO.LoginResponse;
 import com.example.backend.service.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,11 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/users")
 public class LoginController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public LoginController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @CrossOrigin(origins = "http://localhost:8081")
     @PostMapping("/login")

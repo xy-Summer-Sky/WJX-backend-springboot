@@ -3,9 +3,9 @@ package com.example.backend.controller;
 import com.example.backend.DTO.ResponseDto;
 import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.ResponseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 //ResponseController类是一个控制器类，用于处理回复相关的HTTP请求。
@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/responses")
 public class ResponseController extends SecurityConfig {
 
-    @Autowired
-    private ResponseServiceImpl responseServiceImpl;
+    private final ResponseServiceImpl responseServiceImpl;
+
+    public ResponseController(ResponseServiceImpl responseServiceImpl) {
+        this.responseServiceImpl = responseServiceImpl;
+    }
 
     //给某个问题添加回复
     @PostMapping("/{questionId}")
