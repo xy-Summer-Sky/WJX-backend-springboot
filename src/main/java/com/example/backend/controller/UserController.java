@@ -1,14 +1,12 @@
 package com.example.backend.controller;
+
 import com.example.backend.DTO.UserDto;
 import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 // UserController类是一个控制器类，用于处理用户相关的HTTP请求。
@@ -38,10 +36,10 @@ public class UserController extends SecurityConfig {
     }
 
     //根据邮箱获取用户id
-    @PostMapping("/getUserId")
-    public ResponseEntity<Long> getUserId(@RequestBody String email) {
+    @GetMapping("/getUserId")
+    public ResponseEntity<Integer> getUserId(@RequestParam String email) {
         Integer userId = userService.getUserId(email);
-        return ResponseEntity.ok(Long.valueOf(userId));
+        return ResponseEntity.ok(userId);
     }
 
 }

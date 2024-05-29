@@ -110,6 +110,7 @@
       order by ${orderByClause}
     </if>
   </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated
@@ -141,6 +142,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
   <insert id="insert" parameterType="com.example.backend.entity.User">
     <!--
       WARNING - @mbg.generated
