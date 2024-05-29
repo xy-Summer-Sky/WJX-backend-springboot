@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.entity.Survey;
 import com.example.backend.mapper.SurveyMapper;
+import com.example.backend.service.serviceInterface.SurveyServiceInter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,6 +1,8 @@
 package com.example.backend.DTO;
 
 public class UserDto {
+
+    private Integer id;
     private String name;
     private Short age;
     private Short gender;
@@ -10,13 +12,14 @@ public class UserDto {
     private String email;
     public UserDto() {}
 
-    public UserDto(String name, Short age, Short gender, String phone, String password, String email) {
+    public UserDto(Integer id,String name, Short age, Short gender, String phone, String password, String email) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.phone = phone;
         this.password = password;
         this.email = email;
+        this.id = id;
     }
 
     public String getName() {
@@ -69,5 +72,13 @@ public class UserDto {
 
     public void setUsername(String testUser) {
         this.name = testUser;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

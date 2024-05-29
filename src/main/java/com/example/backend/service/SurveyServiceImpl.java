@@ -7,6 +7,7 @@ import com.example.backend.entity.Question;
 import com.example.backend.entity.Survey;
 import com.example.backend.mapper.QuestionMapper;
 import com.example.backend.mapper.SurveyMapper;
+import com.example.backend.service.serviceInterface.SurveyServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

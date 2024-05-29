@@ -1,4 +1,4 @@
-package com.example.backend.service;
+package com.example.backend.service.serviceInterface;
 
 import com.example.backend.DTO.OptionDto;
 import com.example.backend.entity.Option;

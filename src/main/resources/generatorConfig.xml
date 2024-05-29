@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
+
     <classPathEntry location="C:/Users/Lenovo/.m2/repository/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar"/>
 
     <!-- 定义一个数据库连接的环境 -->

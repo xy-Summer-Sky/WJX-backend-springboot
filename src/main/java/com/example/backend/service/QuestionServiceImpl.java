@@ -5,13 +5,14 @@ import com.example.backend.DTO.OptionDto;
 import com.example.backend.entity.Question;
 import com.example.backend.entity.QuestionExample;
 import com.example.backend.mapper.QuestionMapper;
+import com.example.backend.service.serviceInterface.QuestionServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class QuestionServiceImpl implements QuestionServiceInter{
+public class QuestionServiceImpl implements QuestionServiceInter {
     @Autowired
     private QuestionMapper questionMapper;
 

@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @WebMvcTest(OptionController.class)
 @WithMockUser(username ="11",password = "11",roles = {"ADMIN"})
@@ -55,7 +55,7 @@ public class OptionControllerTest  {
 
     @Test
     public void testGetOptionsForQuestion() throws Exception {
-        Mockito.when(optionServiceImpl.getOptionsForQuestion(1L)).thenReturn(Arrays.asList(optionDto));
+        Mockito.when(optionServiceImpl.getOptionsForQuestion(1L)).thenReturn(Collections.singletonList(optionDto));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/options/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())

@@ -4,6 +4,7 @@ import com.example.backend.DTO.ResponseDto;
 import com.example.backend.entity.Response;
 import com.example.backend.entity.ResponseExample;
 import com.example.backend.mapper.ResponseMapper;
+import com.example.backend.service.serviceInterface.ResponseServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ResponseServiceImpl implements ResponseServiceInter{
+public class ResponseServiceImpl implements ResponseServiceInter {
     @Autowired
     private ResponseMapper responseMapper;
 

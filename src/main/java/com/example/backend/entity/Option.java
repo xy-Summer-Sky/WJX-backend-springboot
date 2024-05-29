@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
@@ -43,6 +44,7 @@ public class Option implements Serializable {
      *
      * @mbg.generated Sun May 26 01:02:30 CST 2024
      */
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public Option() {

@@ -2,11 +2,12 @@ package com.example.backend.service;
 import com.example.backend.DTO.UserDto;
 import com.example.backend.entity.User;
 import com.example.backend.mapper.UserMapper;
+import com.example.backend.service.serviceInterface.UserServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.backend.config.SecurityConfig;
 @Service
-public class UserServiceImpl implements UserServiceInter{
+public class UserServiceImpl implements UserServiceInter {
 
     private UserMapper userDAO = null;
     private SecurityConfig securityConfig = null;
@@ -22,7 +23,9 @@ public class UserServiceImpl implements UserServiceInter{
         if (existingUser!= null) {
             return "User with email " + userDTO.getEmail() + " already exists.";
         }
+
         User user = new User();
+        user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setAge(userDTO.getAge());
         user.setGender(userDTO.getGender());
