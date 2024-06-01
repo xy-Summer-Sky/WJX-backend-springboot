@@ -118,6 +118,23 @@ public class SurveyController extends SecurityConfig {
 
     }
 
+    //问卷的接收数量加一
+    @CrossOrigin
+    @PutMapping("/state/addNum/{surveyId}")
+    public ResponseEntity<SurveyStateDto> incrementSurveyState(@PathVariable Long surveyId) {
+        SurveyStateDto surveyState = surveyService.incrementSurveyState(surveyId);
+        return ResponseEntity.ok(surveyState);
+    }
+
+    //修改问卷状态
+    @CrossOrigin
+    @PutMapping("/state/changeSurveyState/{surveyId}")
+    public ResponseEntity<SurveyStateDto> changeSurveyState(@RequestBody SurveyStateDto surveyStateDto) {
+        SurveyStateDto surveyState = surveyService.changeSurveyState(surveyStateDto);
+        return ResponseEntity.ok(surveyState);
+    }
+
+
 
 
 }

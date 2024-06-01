@@ -151,5 +151,19 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getId(), surveyState.getState());
 
     }
+
+    public SurveyStateDto incrementSurveyState(Long surveyId) {
+        SurveyState surveyState = surveyStateMapper.selectSurveyStateBySurveyId(surveyId);
+        surveyState.setReceivenumber(surveyState.getReceivenumber() + 1);
+        surveyStateMapper.updateByPrimaryKey(surveyState);
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
+    }
+
+    public SurveyStateDto changeSurveyState(SurveyStateDto surveyStateDto) {
+        SurveyState surveyState = surveyStateMapper.selectSurveyStateBySurveyId(surveyStateDto.getSurveyId());
+        surveyState.setState(surveyStateDto.getState());
+        surveyStateMapper.updateByPrimaryKey(surveyState);
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
+    }
 }
 
