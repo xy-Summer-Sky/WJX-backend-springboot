@@ -42,14 +42,6 @@ public class SurveyController extends SecurityConfig {
         return ResponseEntity.ok(createdSurvey);
     }
 
-//    //所有问卷的获取
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @GetMapping("/getAll")
-//    public ResponseEntity<List<SurveyDto>> getAllSurveys() {
-//        List<SurveyDto> surveys = surveyService.getAllSurveys();
-//        return ResponseEntity.ok(surveys);
-//    }
-
 
     //根据id获取问卷
     @GetMapping("/{id}")
