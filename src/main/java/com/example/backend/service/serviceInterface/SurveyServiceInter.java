@@ -12,7 +12,7 @@ public interface SurveyServiceInter {
     SurveyDto getSurveyById(Long id);
     SurveyDto updateSurvey(Long id, SurveyDto surveyDto);
     void deleteSurvey(Long id);
-    void addQuestionToSurvey(Long surveyId, QuestionDto questionDto);
+
     List<QuestionDto> getQuestionsForSurvey(Long surveyId);
     List<OptionDto> getOptionsForQuestion(Long questionId);
 }

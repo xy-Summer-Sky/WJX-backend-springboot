@@ -11,6 +11,7 @@ import java.util.List;
 //OptionController类是一个控制器类，用于处理选项相关的HTTP请求。
 @RestController
 @RequestMapping("/api/options")
+@CrossOrigin(origins = "http://localhost:8082")
 public class OptionController extends SecurityConfig{
 
     private final OptionServiceImpl optionServiceImpl;
@@ -27,7 +28,7 @@ public class OptionController extends SecurityConfig{
         return ResponseEntity.ok(createdOption);
     }
 
-    //根据选项id获取选项
+    //根据问题的id获取选项
     @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{questionId}")
     public ResponseEntity<List<OptionDto>> getOptionsForQuestion(@PathVariable Long questionId) {

@@ -1,6 +1,8 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.QuestionResponse;
 import com.example.backend.DTO.SurveyDto;
+import com.example.backend.service.ExcelFileCreator;
 import com.example.backend.service.SurveyServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @WebMvcTest(SurveyController.class)
 public class SurveyControllerTest {
@@ -24,9 +28,13 @@ public class SurveyControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    @Autowired
     private SurveyServiceImpl surveyService;
 
     private SurveyDto surveyDto;
+
+    @MockBean
+    private ExcelFileCreator excelFileCreator;
 
     @BeforeEach
     @Sql(scripts = "classpath:/sql/data.sql")
@@ -104,4 +112,22 @@ public class SurveyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Test Survey"));
     }
+
+    @Test
+    public void testDownloadSurveyResponses() throws Exception {
+        // Arrange
+        Long surveyId = 1L;
+        List<QuestionResponse> responses = new ArrayList<>(); // Add your predefined responses here
+        String filePath = "path/to/excel/file";
+
+        Mockito.when(surveyService.getResponsesForSurvey(surveyId)).thenReturn(responses);
+        // Use the mock object here
+        Mockito.when(excelFileCreator.createExcel(responses)).thenReturn(filePath);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.get(  "/api/surveys/responses/download/"+surveyId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/vnd.ms-excel"));
+    }
+
 }

@@ -39,9 +39,18 @@ CREATE TABLE IF NOT EXISTS options (
 -- Create `responses` table
 CREATE TABLE IF NOT EXISTS responses (
                                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                         answer_text TEXT,
+                                         answer_text TEXT NOT NULL ,
                                          question_id BIGINT,
                                          FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
-
+create table if not exists surveys_state
+(
+    survey_id     bigint                                    not null,
+    id            int auto_increment
+        primary key,
+    receiveNumber int                                       not null,
+    state         enum ('已发布', '未发布', '结束', '暂停') not null,
+    constraint survey_id
+        foreign key (survey_id) references surveys (id)
+);
 

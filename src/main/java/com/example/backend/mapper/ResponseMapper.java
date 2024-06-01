@@ -2,10 +2,10 @@ package com.example.backend.mapper;
 
 import com.example.backend.entity.Response;
 import com.example.backend.entity.ResponseExample;
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface ResponseMapper {
@@ -120,4 +120,7 @@ public interface ResponseMapper {
      * @mbg.generated Sun May 26 01:02:30 CST 2024
      */
     int updateByPrimaryKey(Response record);
+
+    List<Response> selectByQuestionId(Long id);
+
 }

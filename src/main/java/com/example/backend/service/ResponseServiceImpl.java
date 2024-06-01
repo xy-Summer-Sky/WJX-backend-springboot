@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ResponseServiceImpl implements ResponseServiceInter {
-    private final ResponseMapper responseMapper;
+
+
+
+    private final ResponseMapper responseMapper ;
 
     public ResponseServiceImpl(ResponseMapper responseMapper) {
         this.responseMapper = responseMapper;
@@ -26,9 +29,17 @@ public class ResponseServiceImpl implements ResponseServiceInter {
     public List<ResponseDto> getResponsesForQuestion(Long questionId) {
         ResponseExample example = new ResponseExample();
         example.createCriteria().andQuestionIdEqualTo(questionId);
-        List<Response> responses = responseMapper.selectByExample(example);
-        return responses.stream().map(response -> new ResponseDto(response.getId(), response.getQuestionId(),response.getAnswerText())).collect(Collectors.toList());
-
+        List<Response> responses = responseMapper.selectByExampleWithBLOBs(example);
+        System.out.println(responses);
+        //未知原因，让回答的内容一直为空
+        for(Response response:responses){
+            System.out.println(response.getAnswerText());
+            if(response.getAnswerText()==null){
+                response.setAnswerText("未回答");
+            }
+        }
+        System.out.println(responseMapper.selectByExampleWithBLOBs(example));
+        return responses.stream().map(response -> new ResponseDto( response.getQuestionId(),response.getAnswerText())).collect(Collectors.toList());
     }
 
     public ResponseDto addResponseToQuestion(Long questionId, ResponseDto responseDto) {
@@ -36,7 +47,6 @@ public class ResponseServiceImpl implements ResponseServiceInter {
         Response response = new Response();
         response.setQuestionId(questionId);
         response.setAnswerText(responseDto.answerText());
-        response.setId(responseDto.id());
         responseMapper.insert(response);
         return responseDto;}
 

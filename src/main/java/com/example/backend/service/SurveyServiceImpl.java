@@ -1,27 +1,37 @@
 package com.example.backend.service;
 
-import com.example.backend.DTO.OptionDto;
-import com.example.backend.DTO.QuestionDto;
-import com.example.backend.DTO.SurveyDto;
+import com.example.backend.DTO.*;
 import com.example.backend.entity.Question;
 import com.example.backend.entity.Survey;
+import com.example.backend.entity.SurveyState;
 import com.example.backend.mapper.QuestionMapper;
+import com.example.backend.mapper.ResponseMapper;
 import com.example.backend.mapper.SurveyMapper;
+import com.example.backend.mapper.SurveyStateMapper;
 import com.example.backend.service.serviceInterface.SurveyServiceInter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class SurveyServiceImpl implements SurveyServiceInter {
 
-    @Autowired
-    private SurveyMapper surveyMapper;
-    @Autowired
-    private QuestionMapper questionMapper;
+    private final SurveyMapper surveyMapper;
+    private final QuestionMapper questionMapper;
+    private final ResponseMapper responseMapper;
+    private final SurveyStateMapper surveyStateMapper; // 新增
+
+
+    public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper) {
+        this.surveyMapper = surveyMapper;
+        this.questionMapper = questionMapper;
+        this.responseMapper = responseMapper;
+        this.surveyStateMapper = surveyStateMapper;
+    }
+
 
     private Survey convertToEntity(SurveyDto surveyDto) {
         Survey survey = new Survey();
@@ -41,16 +51,6 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     private QuestionDto convertQuestionToDto(Question question) {
         // 假设 Question 有相应的方法
         return new QuestionDto(question.getId(), question.getText(), question.getType(), question.getSurveyId());
-    }
-
-    private Question convertToEntity(QuestionDto questionDto) {
-        Question question = new Question();
-        question.setId(questionDto.getId());
-        question.setText(questionDto.getText());
-        question.setType(questionDto.getType());
-        question.setSurveyId(questionDto.getSurveyId());
-
-        return question;
     }
 
 
@@ -86,12 +86,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         surveyMapper.deleteByPrimaryKey(id);
     }
 
-    @Override
-    public void addQuestionToSurvey(Long surveyId, QuestionDto questionDto) {
-        Question question = convertToEntity(questionDto);
-        question.setSurveyId(surveyId); // Link question to the survey
-        questionMapper.insert(question);
-    }
+
 
     @Override
     public List<QuestionDto> getQuestionsForSurvey(Long surveyId) {
@@ -99,9 +94,10 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         return questions.stream().map(this::convertQuestionToDto).collect(Collectors.toList());
     }
 
+    //未实现
     @Override
     public List<OptionDto> getOptionsForQuestion(Long questionId) {
-        // Implementation would similarly fetch options and convert them to DTOs
+
 
         return null;
     }
@@ -119,4 +115,41 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         return surveys.stream().map(this::convertSurveyToDto).collect(Collectors.toList());
 
     }
+
+    public List<QuestionResponse> getResponsesForSurvey(Long surveyId) {
+        List<QuestionDto> questions = getQuestionsForSurvey(surveyId);
+        List<QuestionResponse> allResponses = new ArrayList<>();
+
+        ResponseServiceImpl responseService;
+        responseService = new ResponseServiceImpl(responseMapper);
+        for (QuestionDto question : questions) {
+            List<ResponseDto> responses = responseService.getResponsesForQuestion(question.getId());
+
+            System.out.println(responses);
+            for(ResponseDto response : responses){
+                if(response.getanswerText() == null){
+                    System.out.println("Response is null");
+                }
+
+                System.out.println("Question: " + question.getText() + " Response: " + response.getanswerText());
+                allResponses.add(new QuestionResponse(question.getText(), response.answerText()));
+            }
+
+        }
+
+
+
+
+        return allResponses;
+    }
+
+    public SurveyStateDto getSurveyState(Long surveyId) {
+
+       SurveyState surveyState=surveyStateMapper.selectSurveyStateBySurveyId(surveyId);
+
+
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getId(), surveyState.getState());
+
+    }
 }
+

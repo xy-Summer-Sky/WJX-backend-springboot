@@ -33,7 +33,7 @@
         </javaModelGenerator>
 
         <!-- Mapper XML 文件生成位置 -->
-        <sqlMapGenerator targetPackage="mybatis" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -42,11 +42,15 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!-- 指定数据库表 -->
-        <table tableName="surveys" domainObjectName="Survey">
-            <property name="useActualColumnNames" value="false"/>
+        <table tableName="surveys_state" domainObjectName="SurveyState">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
+
+        <!-- 指定数据库表 -->
+<!--        <table tableName="surveys" domainObjectName="Survey">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="questions" domainObjectName="Question">-->
 <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
 <!--        </table>-->

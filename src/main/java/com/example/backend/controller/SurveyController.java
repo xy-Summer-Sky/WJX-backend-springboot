@@ -1,11 +1,21 @@
 package com.example.backend.controller;
 
+import com.example.backend.DTO.QuestionResponse;
 import com.example.backend.DTO.SurveyDto;
+import com.example.backend.DTO.SurveyStateDto;
 import com.example.backend.config.SecurityConfig;
+import com.example.backend.service.ExcelFileCreator;
 import com.example.backend.service.SurveyServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 //
@@ -14,14 +24,19 @@ import java.util.List;
 public class SurveyController extends SecurityConfig {
 
     private final SurveyServiceImpl surveyService;
+    private final ExcelFileCreator excelFileCreator;
+    private static final Logger logger = LoggerFactory.getLogger(SurveyController.class);
 
-    public SurveyController(SurveyServiceImpl surveyService) {
+    public SurveyController(SurveyServiceImpl surveyService, ExcelFileCreator excelFileCreator) {
         this.surveyService = surveyService;
+
+
+        this.excelFileCreator = excelFileCreator;
     }
 
     //问卷的增加
     @CrossOrigin(origins = "http://localhost:8081")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<SurveyDto> createSurvey(@RequestBody SurveyDto surveyDto) {
         SurveyDto createdSurvey = surveyService.createSurvey(surveyDto);
         return ResponseEntity.ok(createdSurvey);
@@ -29,7 +44,7 @@ public class SurveyController extends SecurityConfig {
 
     //所有问卷的获取
     @CrossOrigin(origins = "http://localhost:8081")
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<SurveyDto>> getAllSurveys() {
         List<SurveyDto> surveys = surveyService.getAllSurveys();
         return ResponseEntity.ok(surveys);
@@ -70,4 +85,39 @@ public class SurveyController extends SecurityConfig {
         List<SurveyDto> surveys = surveyService.getSurveysByUserIdSorted(userId);
         return ResponseEntity.ok(surveys);
     }
+
+
+
+
+    @CrossOrigin
+    @GetMapping("/responses/download/{surveyId}")
+    public ResponseEntity<InputStreamResource> downloadSurveyResponses(@PathVariable Long surveyId) {
+        List<QuestionResponse> responses = surveyService.getResponsesForSurvey(surveyId);
+        // Use the injected excelFileCreator instance
+        String filePath = excelFileCreator.createExcel(responses);
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .body(new InputStreamResource(fileInputStream));
+        } catch (IOException e) {
+            logger.error("Error occurred while downloading survey responses", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //返回问卷的状态信息
+    @CrossOrigin
+    @GetMapping("/state/{surveyId}")
+    public ResponseEntity<SurveyStateDto> getSurveyState(@PathVariable Long surveyId) {
+
+
+
+        return ResponseEntity.ok(surveyService.getSurveyState(surveyId));
+
+    }
+
+
+
 }

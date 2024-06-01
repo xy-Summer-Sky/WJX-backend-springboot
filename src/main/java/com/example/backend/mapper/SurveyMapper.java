@@ -125,10 +125,11 @@ public interface SurveyMapper {
 
     void update(Survey existingSurvey);
 
-
     List<Survey> selectAll();
 
     List<Survey> selectByUserId(Long userId);
 
     List<Survey> selectByUserIdSorted(Long userId, Sort createdAt);
+
+
 }
