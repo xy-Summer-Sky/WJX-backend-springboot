@@ -165,5 +165,14 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         surveyStateMapper.updateByPrimaryKey(surveyState);
         return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
     }
+
+    public SurveyStateDto addSurveyState(Long surveyId) {
+        SurveyState surveyState = new SurveyState();
+        surveyState.setSurveyId(surveyId);
+        surveyState.setReceivenumber(0);
+        surveyState.setState("未发布");
+        surveyStateMapper.insert(surveyState);
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
+    }
 }
 

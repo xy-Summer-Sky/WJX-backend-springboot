@@ -134,6 +134,14 @@ public class SurveyController extends SecurityConfig {
         return ResponseEntity.ok(surveyState);
     }
 
+    //根据问卷id添加问卷状态
+    @CrossOrigin
+    @PostMapping("/addState/{surveyId}")
+    public ResponseEntity<SurveyStateDto> addSurveyState(@PathVariable Long surveyId) {
+        SurveyStateDto surveyState = surveyService.addSurveyState(surveyId);
+        return ResponseEntity.ok(surveyState);
+    }
+
 
 
 
