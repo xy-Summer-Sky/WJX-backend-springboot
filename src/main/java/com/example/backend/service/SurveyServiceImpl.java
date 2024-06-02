@@ -4,12 +4,12 @@ import com.example.backend.DTO.*;
 import com.example.backend.entity.Question;
 import com.example.backend.entity.Survey;
 import com.example.backend.entity.SurveyState;
-import com.example.backend.mapper.QuestionMapper;
-import com.example.backend.mapper.ResponseMapper;
-import com.example.backend.mapper.SurveyMapper;
-import com.example.backend.mapper.SurveyStateMapper;
+import com.example.backend.entity.User;
+import com.example.backend.mapper.*;
 import com.example.backend.service.serviceInterface.SurveyServiceInter;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,12 +24,13 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     private final ResponseMapper responseMapper;
     private final SurveyStateMapper surveyStateMapper; // 新增
 
-
-    public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper) {
+    private final UserMapper userMapper; // 新增
+    public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper, UserMapper userMapper) {
         this.surveyMapper = surveyMapper;
         this.questionMapper = questionMapper;
         this.responseMapper = responseMapper;
         this.surveyStateMapper = surveyStateMapper;
+        this.userMapper = userMapper;
     }
 
 
@@ -174,5 +175,32 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         surveyStateMapper.insert(surveyState);
         return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
     }
+
+
+    public UserDetails loadUserByUsername(String username) {
+        User user = userMapper.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + username);
+        }
+        // 转换为 UserDetails 对象并返回
+        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
+                .password(user.getPassword())
+                .roles("Null") // 设置用户角色，可以根据具体需求修改
+                .build();
+
+    }
+
+    public boolean isSurveyCreator(String username, String surveyId) {
+        User user = userMapper.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + username);
+        }
+        Survey survey = surveyMapper.selectByPrimaryKey(Long.parseLong(surveyId));
+        if (survey == null) {
+            return false;
+        }
+        return survey.getCreatedBy().equals(user.getId());
+    }
+
 }
 
