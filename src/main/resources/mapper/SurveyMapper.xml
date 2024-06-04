@@ -352,6 +352,7 @@
     update surveys
     set title = #{title,jdbcType=VARCHAR},
       created_by = #{createdBy,jdbcType=INTEGER}
+
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

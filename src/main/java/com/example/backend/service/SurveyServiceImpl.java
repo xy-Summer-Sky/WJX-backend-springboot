@@ -77,7 +77,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     public SurveyDto updateSurvey(Long id, SurveyDto surveyDto) {
         Survey survey = convertToEntity(surveyDto);
         survey.setId(id); // Ensure ID is set correctly
-        surveyMapper.updateByPrimaryKey(survey);
+        surveyMapper.updateByPrimaryKeyWithBLOBs(survey);
         return convertSurveyToDto(survey);
     }
 
