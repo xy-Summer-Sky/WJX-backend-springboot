@@ -14,7 +14,7 @@ public class UserWithRole implements UserDetails {
 
     public UserWithRole(UserDetails userDetails, String role) {
         this.userDetails = userDetails;
-        this.authorities = List.of(new SimpleGrantedAuthority(role));
+        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
@@ -51,5 +51,6 @@ public class UserWithRole implements UserDetails {
     public boolean isEnabled() {
         return userDetails.isEnabled();
     }
+
 }
 
