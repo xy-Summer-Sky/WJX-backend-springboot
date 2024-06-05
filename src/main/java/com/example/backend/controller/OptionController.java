@@ -11,7 +11,7 @@ import java.util.List;
 //OptionController类是一个控制器类，用于处理选项相关的HTTP请求。
 @RestController
 @RequestMapping("/api/options")
-@CrossOrigin(origins = "http://localhost:8082")
+@CrossOrigin(origins = "http://localhost:8081")
 public class OptionController extends SecurityConfig{
 
     private final OptionServiceImpl optionServiceImpl;
