@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.DTO.QuestionResponse;
 import com.example.backend.DTO.SurveyDto;
 import com.example.backend.DTO.SurveyStateDto;
-import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.ExcelFileCreator;
 import com.example.backend.service.SurveyServiceImpl;
 import org.slf4j.Logger;
@@ -21,7 +20,8 @@ import java.util.List;
 //
 @RestController
 @RequestMapping("/api/surveys")
-public class SurveyController extends SecurityConfig {
+@CrossOrigin(origins = "http://localhost:8082")
+public class SurveyController {
 
     private final SurveyServiceImpl surveyService;
     private final ExcelFileCreator excelFileCreator;

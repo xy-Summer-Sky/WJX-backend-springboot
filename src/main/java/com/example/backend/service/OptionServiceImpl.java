@@ -54,7 +54,7 @@ public class OptionServiceImpl implements OptionServiceInter {
         Option optionToUpdate = optionMapper.selectByPrimaryKey(id);
         optionToUpdate.setOptionText(option.getOptionText());
         optionMapper.updateByPrimaryKeySelective(optionToUpdate);
-        return option;
+        return new OptionDto(optionToUpdate.getId(), optionToUpdate.getOptionText(), optionToUpdate.getQuestionId());
     }
 
 
@@ -69,8 +69,9 @@ public class OptionServiceImpl implements OptionServiceInter {
         Option option = new Option();
         option.setQuestionId(questionId);
         option.setOptionText(optionDto.getOptionText());
-        option.setId(optionDto.getId());
+
         optionMapper.insert(option);
+        optionDto.setId(option.getId());
         return optionDto;
     }
 

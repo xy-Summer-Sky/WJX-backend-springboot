@@ -7,7 +7,7 @@ import java.util.Objects;
  * DTO for {@link com.example.backend.entity.Option}
  */
 public class OptionDto implements Serializable {
-    private final Long id;
+    private Long id;
     private final String optionText;
     private final Long questionId;
 
@@ -56,5 +56,6 @@ public class OptionDto implements Serializable {
     }
 
     public void setId(Long optionId) {
+        this.id = optionId;
     }
 }

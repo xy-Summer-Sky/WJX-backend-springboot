@@ -40,7 +40,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         survey.setTitle(surveyDto.getTitle());
         survey.setCreatedBy(surveyDto.getCreatedBy());
         survey.setDescription(surveyDto.getDescription());
-        survey.setCreatedAt(surveyDto.getCreatedAt());
+//        survey.setCreatedAt(surveyDto.getCreatedAt());
         return survey;
     }
 
@@ -79,7 +79,10 @@ public class SurveyServiceImpl implements SurveyServiceInter {
         Survey survey = convertToEntity(surveyDto);
         survey.setId(id); // Ensure ID is set correctly
         surveyMapper.updateByPrimaryKeyWithBLOBs(survey);
-        return convertSurveyToDto(survey);
+
+        // After the update, fetch the survey again from the database
+        Survey updatedSurvey = surveyMapper.selectByPrimaryKey(id);
+        return convertSurveyToDto(updatedSurvey);
     }
 
     @Override
@@ -149,7 +152,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
        SurveyState surveyState=surveyStateMapper.selectSurveyStateBySurveyId(surveyId);
 
 
-        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getId(), surveyState.getState());
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
 
     }
 
