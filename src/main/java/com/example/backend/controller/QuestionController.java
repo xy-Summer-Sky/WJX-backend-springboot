@@ -63,14 +63,6 @@ public class QuestionController extends SecurityConfig {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    //根据问题id获取问题的选项
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @GetMapping("/{questionId}/options")
-//    public ResponseEntity<List<OptionDto>> getOptionsForQuestion(@PathVariable Long questionId) {
-//        List<OptionDto> options = questionServiceImpl.getOptionsForQuestion(questionId);
-//        return new ResponseEntity<>(options, HttpStatus.OK);
-//    }
-
 
 
     //根据问题id和选项id更新选项
