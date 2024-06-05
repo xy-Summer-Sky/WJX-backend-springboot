@@ -151,7 +151,8 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
 
             String surveyId = request.getHeader("surveyId");  // 假设问卷ID作为请求参数传递
             if (surveyId != null) {
-                boolean isCreator = surveyService.isSurveyCreator(username, surveyId);
+
+                boolean isCreator = !surveyId.equals("-1") && surveyService.isSurveyCreator(username, surveyId);
                 if (isCreator) {
                     userDetails = new UserWithRole(userDetails, "SURVEY_CREATOR");
                 } else {
