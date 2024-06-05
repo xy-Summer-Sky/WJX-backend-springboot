@@ -152,7 +152,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
        SurveyState surveyState=surveyStateMapper.selectSurveyStateBySurveyId(surveyId);
 
 
-        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getId(), surveyState.getState());
+        return new SurveyStateDto(surveyState.getSurveyId(), surveyState.getReceivenumber(), surveyState.getState());
 
     }
 
