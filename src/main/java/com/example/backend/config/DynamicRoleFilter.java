@@ -26,7 +26,6 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
 
-
     private final SurveyServiceImpl surveyService;
 
     public DynamicRoleFilter(JwtTokenProvider tokenProvider, SurveyServiceImpl surveyService) {
@@ -49,9 +48,6 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
 
-        if (jwt == null) {
-            System.out.println("JWT is null");
-        }
         if(jwt != null && jwt.equals(GUEST_TOKEN)){
             // 对于游客用户, 其具有特殊的token
             UserDetails guestUser = new UserDetails() {
@@ -155,7 +151,8 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
 
             String surveyId = request.getHeader("surveyId");  // 假设问卷ID作为请求参数传递
             if (surveyId != null) {
-                boolean isCreator = surveyService.isSurveyCreator(username, surveyId);
+
+                boolean isCreator = !surveyId.equals("-1") && surveyService.isSurveyCreator(username, surveyId);
                 if (isCreator) {
                     userDetails = new UserWithRole(userDetails, "SURVEY_CREATOR");
                 } else {
