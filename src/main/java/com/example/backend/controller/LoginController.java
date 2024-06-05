@@ -17,6 +17,7 @@ public class LoginController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
     public LoginController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;

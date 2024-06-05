@@ -42,16 +42,9 @@ public class SurveyController extends SecurityConfig {
         return ResponseEntity.ok(createdSurvey);
     }
 
-//    //所有问卷的获取
-//    @CrossOrigin(origins = "http://localhost:8081")
-//    @GetMapping("/getAll")
-//    public ResponseEntity<List<SurveyDto>> getAllSurveys() {
-//        List<SurveyDto> surveys = surveyService.getAllSurveys();
-//        return ResponseEntity.ok(surveys);
-//    }
-
 
     //根据id获取问卷
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<SurveyDto> getSurveyById(@PathVariable Long id) {
         SurveyDto survey = surveyService.getSurveyById(id);
@@ -59,6 +52,7 @@ public class SurveyController extends SecurityConfig {
     }
 
     //根据用户id获取所有问卷
+    @CrossOrigin
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<SurveyDto>> getSurveysByUserId(@PathVariable Long userId) {
         List<SurveyDto> surveys = surveyService.getSurveysByUserId(userId);
@@ -73,13 +67,14 @@ public class SurveyController extends SecurityConfig {
     }
 
     //问卷的删除
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSurvey(@PathVariable Long id) {
         surveyService.deleteSurvey(id);
         return ResponseEntity.ok().build();
     }
 
-    //根据用户id获取所有问卷并且按照时间排序(按照时间从小到大)
+    @CrossOrigin
     @GetMapping("/user/{userId}/sorted")
     public ResponseEntity<List<SurveyDto>> getSurveysByUserIdSorted(@PathVariable Long userId) {
         List<SurveyDto> surveys = surveyService.getSurveysByUserIdSorted(userId);
