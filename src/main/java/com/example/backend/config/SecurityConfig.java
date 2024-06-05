@@ -5,6 +5,7 @@ import com.example.backend.service.SurveyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,7 +24,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // 禁用 CSRF 防护
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT","DEVELOPER")  // 填写者可以是非问卷发布者或者游客
+                        .requestMatchers(HttpMethod.GET, "/api/options/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT")  // 非问卷发布者或者游客可以访问 GET /api/options
+                        .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT")  // 填写者可以是非问卷发布者或者游客
                         .requestMatchers("/api/message").permitAll() // 基本验证
                         .requestMatchers("/api/surveys/create").hasAnyRole("SURVEY_CREATOR", "SURVEY_RESPONDENT","DEVELOPER")  // 问卷创建需要登录用户才可以访问
                         .requestMatchers("/api/surveys/**").hasAnyRole("SURVEY_CREATOR", "DEVELOPER")  // 仅问卷发布者角色可以访问

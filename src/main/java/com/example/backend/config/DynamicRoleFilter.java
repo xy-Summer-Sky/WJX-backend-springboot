@@ -26,7 +26,6 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
 
-
     private final SurveyServiceImpl surveyService;
 
     public DynamicRoleFilter(JwtTokenProvider tokenProvider, SurveyServiceImpl surveyService) {
