@@ -49,9 +49,9 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
 
-        if (jwt == null) {
-            System.out.println("JWT is null");
-        }
+//        if (jwt == null) {
+//            System.out.println("JWT is null");
+//        }
         if(jwt != null && jwt.equals(GUEST_TOKEN)){
             // 对于游客用户, 其具有特殊的token
             UserDetails guestUser = new UserDetails() {
