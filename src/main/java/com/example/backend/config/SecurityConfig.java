@@ -23,10 +23,10 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // 禁用 CSRF 防护
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT")  // 填写者可以是非问卷发布者或者游客
+                        .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT","DEVELOPER")  // 填写者可以是非问卷发布者或者游客
                         .requestMatchers("/api/message").permitAll() // 基本验证
-                        .requestMatchers("/api/surveys/create").hasAnyRole("SURVEY_CREATOR", "SURVEY_RESPONDENT")  // 问卷创建需要登录用户才可以访问
-                        .requestMatchers("/api/surveys/**").hasRole("SURVEY_CREATOR")  // 仅问卷发布者角色可以访问
+                        .requestMatchers("/api/surveys/create").hasAnyRole("SURVEY_CREATOR", "SURVEY_RESPONDENT","DEVELOPER")  // 问卷创建需要登录用户才可以访问
+                        .requestMatchers("/api/surveys/**").hasAnyRole("SURVEY_CREATOR", "DEVELOPER")  // 仅问卷发布者角色可以访问
                         .requestMatchers("/api/users/**").permitAll()  // 注册和登录不需要身份验证
                         .requestMatchers("/api/**").hasRole("DEVELOPER") // 开发者角色可以访问所有接口
                         .anyRequest().authenticated())  // 其他请求需要身份验证,一般会被 Spring Security 自动拦截并返回一个错误响应
