@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)  // 禁用 CSRF 防护
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT","DEVELOPER")  // 填写者可以是非问卷发布者或者游客
@@ -29,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/surveys/**").hasAnyRole("SURVEY_CREATOR", "DEVELOPER")  // 仅问卷发布者角色可以访问
                         .requestMatchers("/api/users/**").permitAll()  // 注册和登录不需要身份验证
                         .requestMatchers("/api/options/**").hasAnyRole("SURVEY_CREATOR","DEVELOPER")  // 选项只能由问卷发布者访问
-                        .requestMatchers("/api/**").hasRole("DEVELOPER") // 开发者角色可以访问所有接口
+                        .requestMatchers("/api/**").hasRole("DEVELOPER")
+                        .requestMatchers("/api/surveys/state/addNum/**").hasAnyRole("DEVELOPER")// 开发者角色可以访问所有接口
                         .anyRequest().authenticated())  // 其他请求需要身份验证,一般会被 Spring Security 自动拦截并返回一个错误响应
                 .addFilterBefore(dynamicRoleFilter(), UsernamePasswordAuthenticationFilter.class);  // 添加动态角色检查过滤器
 
@@ -52,5 +60,20 @@ public class SecurityConfig {
     public JwtTokenProvider jwtTokenProvider() {
         return new JwtTokenProvider();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*")); // 允许所有源
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // 允许所有方法
+        configuration.setAllowedHeaders(List.of("*")); // 允许所有头
+        configuration.setAllowCredentials(true); // 允许发送 cookies
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 对所有路径应用这个配置
+        return source;
+    }
+
+
+
 
 }

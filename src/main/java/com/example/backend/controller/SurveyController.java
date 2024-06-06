@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -106,9 +105,6 @@ public class SurveyController {
     @CrossOrigin
     @GetMapping("/state/{surveyId}")
     public ResponseEntity<SurveyStateDto> getSurveyState(@PathVariable Long surveyId) {
-
-
-
         return ResponseEntity.ok(surveyService.getSurveyState(surveyId));
 
     }

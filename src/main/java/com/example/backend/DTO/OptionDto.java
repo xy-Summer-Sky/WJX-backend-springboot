@@ -9,7 +9,7 @@ import java.util.Objects;
 public class OptionDto implements Serializable {
     private Long id;
     private final String optionText;
-    private final Long questionId;
+    private Long questionId;
 
     public OptionDto(Long id, String optionText, Long questionId) {
         this.id = id;
@@ -53,6 +53,7 @@ public class OptionDto implements Serializable {
     }
 
     public void setQuestionId(Long questionId) {
+        this.questionId= questionId;
     }
 
     public void setId(Long optionId) {

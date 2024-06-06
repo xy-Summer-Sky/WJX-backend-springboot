@@ -72,7 +72,9 @@ public class OptionServiceImpl implements OptionServiceInter {
 
         optionMapper.insert(option);
         optionMapper.updateOrder(option);
+        System.out.println(option.getId());
         optionDto.setId(option.getId());
+        optionDto.setQuestionId(questionId);
         return optionDto;
     }
 
