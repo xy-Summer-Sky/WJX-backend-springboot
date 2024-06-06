@@ -100,4 +100,5 @@ public interface OptionMapper {
 
     Option selectByQuestionId(long l);
 
+    void updateOrder(Option option);
 }

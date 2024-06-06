@@ -101,4 +101,6 @@ public interface QuestionMapper {
     List<OptionDto> getOptionsForQuestion(Long questionId);
 
     List<Question> selectBySurveyId(Long surveyId);
+
+    void updateOrder(Question question);
 }

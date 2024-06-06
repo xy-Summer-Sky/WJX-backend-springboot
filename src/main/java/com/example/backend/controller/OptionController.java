@@ -59,4 +59,12 @@ public class OptionController extends SecurityConfig{
         List<OptionDto> options = optionServiceImpl.getOptionsByQuestionId(questionId);
         return ResponseEntity.ok(options);
     }
+
+    //交换两个选项的顺序
+    @CrossOrigin(origins = "http://localhost:8081")
+    @PutMapping("/swap/{id1}/{id2}")
+    public ResponseEntity<?> swapOptions(@PathVariable Long id1, @PathVariable Long id2) {
+        optionServiceImpl.swapOptions(id1, id2);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,10 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.DTO.*;
-import com.example.backend.entity.Question;
-import com.example.backend.entity.Survey;
-import com.example.backend.entity.SurveyState;
-import com.example.backend.entity.User;
+import com.example.backend.entity.*;
 import com.example.backend.mapper.*;
 import com.example.backend.service.serviceInterface.SurveyServiceInter;
 import org.springframework.data.domain.Sort;
@@ -22,15 +19,17 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     private final SurveyMapper surveyMapper;
     private final QuestionMapper questionMapper;
     private final ResponseMapper responseMapper;
-    private final SurveyStateMapper surveyStateMapper; // 新增
-
-    private final UserMapper userMapper; // 新增
-    public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper, UserMapper userMapper) {
+    private final SurveyStateMapper surveyStateMapper;
+    private final OptionMapper optionMapper;// 新增
+    private final UserMapper userMapper;
+    // 新增
+    public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper, UserMapper userMapper, OptionMapper optionMapper) {
         this.surveyMapper = surveyMapper;
         this.questionMapper = questionMapper;
         this.responseMapper = responseMapper;
         this.surveyStateMapper = surveyStateMapper;
         this.userMapper = userMapper;
+        this.optionMapper = optionMapper;
     }
 
 
@@ -87,6 +86,38 @@ public class SurveyServiceImpl implements SurveyServiceInter {
 
     @Override
     public void deleteSurvey(Long id) {
+        // 获取问卷相关的所有问题
+        List<Question> questions = questionMapper.selectBySurveyId(id);
+        for (Question question : questions) {
+            // 创建一个OptionExample对象，用于构建查询条件
+            OptionExample optionExample = new OptionExample();
+            optionExample.createCriteria().andQuestionIdEqualTo(question.getId());
+            // 获取问题相关的所有选项
+            List<Option> options = optionMapper.selectByExample(optionExample);
+            // 删除所有选项
+            for (Option option : options) {
+                optionMapper.deleteByPrimaryKey(option.getId());
+            }
+
+            // 创建一个ResponseExample对象，用于构建查询条件
+            ResponseExample responseExample = new ResponseExample();
+            responseExample.createCriteria().andQuestionIdEqualTo(question.getId());
+            // 获取问题相关的所有回答
+            List<Response> responses = responseMapper.selectByExample(responseExample);
+            // 删除所有回答
+            for (Response response : responses) {
+                responseMapper.deleteByPrimaryKey(response.getId());
+            }
+
+            // 删除问题本身
+            questionMapper.deleteByPrimaryKey(question.getId());
+        }
+
+        // 删除与问卷相关的surveys_state记录
+        SurveyStateExample surveyStateExample = new SurveyStateExample();
+        surveyStateExample.createCriteria().andSurveyIdEqualTo(id);
+        surveyStateMapper.deleteByExample(surveyStateExample);
+
         surveyMapper.deleteByPrimaryKey(id);
     }
 

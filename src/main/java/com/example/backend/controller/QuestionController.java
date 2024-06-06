@@ -60,7 +60,7 @@ public class QuestionController extends SecurityConfig {
     @DeleteMapping("/{questionId}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long questionId) {
         questionServiceImpl.deleteQuestion(questionId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -73,6 +73,14 @@ public class QuestionController extends SecurityConfig {
         option.setId(optionId);
         OptionDto updatedOption = questionServiceImpl.updateOption(option);
         return new ResponseEntity<>(updatedOption, HttpStatus.OK);
+    }
+
+    //交换两个问题的顺序
+    @CrossOrigin(origins = "http://localhost:8081")
+    @PutMapping("/{questionId1}/swap/{questionId2}")
+    public ResponseEntity<Void> swapQuestions(@PathVariable Long questionId1, @PathVariable Long questionId2) {
+        questionServiceImpl.swapQuestions(questionId1, questionId2);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

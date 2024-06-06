@@ -1,16 +1,19 @@
 package com.example.backend.DTO;
 
+import com.example.backend.entity.Question;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * DTO for {@link com.example.backend.entity.Question}
+ * DTO for {@link Question}
  */
 public class QuestionDto implements Serializable {
     private final Long id;
     private final String text;
     private final String type;
     private final Long surveyId;
+
 
     public QuestionDto(Long id, String text, String type, Long surveyId) {
         this.id = id;

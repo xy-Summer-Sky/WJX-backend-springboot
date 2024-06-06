@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/surveys/create").hasAnyRole("SURVEY_CREATOR", "SURVEY_RESPONDENT","DEVELOPER")  // 问卷创建需要登录用户才可以访问
                         .requestMatchers("/api/surveys/**").hasAnyRole("SURVEY_CREATOR", "DEVELOPER")  // 仅问卷发布者角色可以访问
                         .requestMatchers("/api/users/**").permitAll()  // 注册和登录不需要身份验证
+                        .requestMatchers("/api/options/**").hasAnyRole("SURVEY_CREATOR","DEVELOPER")  // 选项只能由问卷发布者访问
                         .requestMatchers("/api/**").hasRole("DEVELOPER") // 开发者角色可以访问所有接口
                         .anyRequest().authenticated())  // 其他请求需要身份验证,一般会被 Spring Security 自动拦截并返回一个错误响应
                 .addFilterBefore(dynamicRoleFilter(), UsernamePasswordAuthenticationFilter.class);  // 添加动态角色检查过滤器

@@ -71,6 +71,7 @@ public class OptionServiceImpl implements OptionServiceInter {
         option.setOptionText(optionDto.getOptionText());
 
         optionMapper.insert(option);
+        optionMapper.updateOrder(option);
         optionDto.setId(option.getId());
         return optionDto;
     }
@@ -78,7 +79,21 @@ public class OptionServiceImpl implements OptionServiceInter {
     public List<OptionDto> getOptionsByQuestionId(Long questionId) {
         OptionExample example = new OptionExample();
         example.createCriteria().andQuestionIdEqualTo(questionId);
+        example.setOrderByClause("`order` asc");
         List<Option> options = optionMapper.selectByExample(example);
         return options.stream().map(option -> new OptionDto(option.getId(), option.getOptionText(), option.getQuestionId())).collect(Collectors.toList());
+    }
+
+    public void swapOptions(Long id1, Long id2) {
+        Option option1 = optionMapper.selectByPrimaryKey(id1);
+        Option option2 = optionMapper.selectByPrimaryKey(id2);
+        System.out.println(option1.getOptionText());
+        System.out.println(option1.getOrder());
+        System.out.println(option2.getOrder());
+        Long order1 = option1.getOrder();
+        option1.setOrder(option2.getOrder());
+        option2.setOrder(order1);
+        optionMapper.updateByPrimaryKeySelective(option1);
+        optionMapper.updateByPrimaryKeySelective(option2);
     }
 }

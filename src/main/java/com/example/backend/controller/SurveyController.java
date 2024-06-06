@@ -20,7 +20,7 @@ import java.util.List;
 //
 @RestController
 @RequestMapping("/api/surveys")
-@CrossOrigin(origins = "http://localhost:8082")
+@CrossOrigin(origins = "http://localhost:8081")
 public class SurveyController {
 
     private final SurveyServiceImpl surveyService;
@@ -136,6 +136,7 @@ public class SurveyController {
         SurveyStateDto surveyState = surveyService.addSurveyState(surveyId);
         return ResponseEntity.ok(surveyState);
     }
+
 
 
 
