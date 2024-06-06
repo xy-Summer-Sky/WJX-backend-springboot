@@ -167,4 +167,6 @@ public class Survey extends SurveyDto implements Serializable {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
+
+
 }

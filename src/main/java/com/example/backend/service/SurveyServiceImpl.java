@@ -22,6 +22,7 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     private final SurveyStateMapper surveyStateMapper;
     private final OptionMapper optionMapper;// 新增
     private final UserMapper userMapper;
+
     // 新增
     public SurveyServiceImpl(SurveyMapper surveyMapper, QuestionMapper questionMapper, ResponseMapper responseMapper, SurveyStateMapper surveyStateMapper, UserMapper userMapper, OptionMapper optionMapper) {
         this.surveyMapper = surveyMapper;
@@ -44,8 +45,21 @@ public class SurveyServiceImpl implements SurveyServiceInter {
     }
 
     private SurveyDto convertSurveyToDto(Survey survey) {
+        SurveyState surveyState=surveyStateMapper.selectSurveyStateBySurveyId(survey.getId());
+        System.out.println(surveyState);
+        if(surveyState==null){
+            surveyState=new SurveyState();
+            surveyState.setSurveyId(survey.getId());
+            surveyState.setReceivenumber(0);
+            surveyState.setState("未发布");
+            surveyStateMapper.insert(surveyState);
+        }
+
         // 假设 Survey 有 getId(), getTitle(), getCreatedBy(), getDescription() 方法
-        return new SurveyDto(survey.getId(), survey.getTitle(), survey.getCreatedBy(), survey.getDescription(), survey.getCreatedAt());
+        return new SurveyDto(survey.getId(), survey.getTitle(), survey.getCreatedBy(), survey.getDescription(), survey.getCreatedAt(),  surveyState.getState(),surveyState.getReceivenumber());
+        //获取问卷的主状态一同赋值
+
+
     }
 
     private QuestionDto convertQuestionToDto(Question question) {

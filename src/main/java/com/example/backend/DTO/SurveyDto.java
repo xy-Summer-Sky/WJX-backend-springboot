@@ -10,17 +10,21 @@ public class SurveyDto implements Serializable {
     private Integer createdBy;
     private String description;
     private Date createdAt;
+    private String surveyState;
+    private Integer receiveNumber;
 
     // Constructors
     public SurveyDto() {
     }
 
-    public SurveyDto(Long id, String title, Integer createdBy, String description, Date createdAt) {
+    public SurveyDto(Long id, String title, Integer createdBy, String description, Date createdAt, String surveyState, Integer receiveNumber) {
         this.id = id;
         this.title = title;
         this.createdBy = createdBy;
         this.description = description;
         this.createdAt = createdAt;
+        this.surveyState = surveyState;
+        this.receiveNumber = receiveNumber;
     }
 
     // Getters and Setters
@@ -56,6 +60,21 @@ public class SurveyDto implements Serializable {
         this.description = description;
     }
 
+    public String getSurveyState() {
+        return surveyState;
+    }
+
+    public void setSurveyState(String surveyState) {
+        this.surveyState = surveyState;
+    }
+
+    public Integer getReceiveNumber() {
+        return receiveNumber;
+    }
+
+    public void setReceiveNumber(Integer receiveNumber) {
+        this.receiveNumber = receiveNumber;
+    }
     // Equals, hashCode and toString methods
     @Override
     public boolean equals(Object o) {
