@@ -83,6 +83,13 @@ public class QuestionController extends SecurityConfig {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //Copy question
+    @CrossOrigin(origins = "http://localhost:8081")
+    @PostMapping("/{questionId}/copy")
+    public ResponseEntity<Question> copyQuestion(@PathVariable Long questionId, @PathVariable Long surveyId) {
+        Question copiedQuestion = questionServiceImpl.copyQuestion(questionId,surveyId);
+        return new ResponseEntity<>(copiedQuestion, HttpStatus.CREATED);
+    }
 
 
 

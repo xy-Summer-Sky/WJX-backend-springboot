@@ -161,14 +161,15 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into questions (text, type, survey_id,`order`
-      )
-    values (#{text,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{surveyId,jdbcType=BIGINT},last_insert_id()
+    insert into questions (text, type, survey_id,`order`)
+    values (#{text,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{surveyId,jdbcType=BIGINT},#{order,jdbcType=BIGINT}
       )
   </insert>
   <update id="updateOrder" parameterType="com.example.backend.entity.Question">
     update questions
+    <if test="order = null">
     set `order` = #{id,jdbcType=BIGINT}
+    </if>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="insertSelective" parameterType="com.example.backend.entity.Question">

@@ -453,6 +453,11 @@ public class QuestionExample {
             addCriterion("survey_id not between", value1, value2, "surveyId");
             return (Criteria) this;
         }
+
+        public void andOrderGreaterThan(Long value)
+        {
+            addCriterion("`order` >", value, "order");
+        }
     }
 
     /**
@@ -466,6 +471,8 @@ public class QuestionExample {
         protected Criteria() {
             super();
         }
+
+
     }
 
     /**

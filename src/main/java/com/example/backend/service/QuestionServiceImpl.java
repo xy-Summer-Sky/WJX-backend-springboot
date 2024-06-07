@@ -103,4 +103,49 @@ public class QuestionServiceImpl implements QuestionServiceInter {
         questionMapper.updateByPrimaryKey(question1);
         questionMapper.updateByPrimaryKey(question2);
     }
+
+
+
+    //在当前问题之后复制一个问题，并返回新问题的ID，然后让之后所有问题的order加1
+    public Question copyQuestion(Long questionId,Long surveyId){
+        Question question = questionMapper.selectByPrimaryKey(questionId);
+        Question newQuestion = new Question();
+        newQuestion.setSurveyId(question.getSurveyId());
+        newQuestion.setText(question.getText());
+        newQuestion.setType(question.getType());
+        newQuestion.setOrder(question.getOrder() + 1);
+
+        //获取当前问题的所有选项
+
+        //获取当前问题之后的所有问题
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andSurveyIdEqualTo(surveyId).andOrderGreaterThan(question.getOrder());
+        List<Question> questions = questionMapper.selectByExample(example);
+
+        // 将这些问题的 order 增加 1
+        for (Question q : questions) {
+            q.setOrder(q.getOrder() + 1);
+            questionMapper.updateByPrimaryKey(q);
+        }
+        questionMapper.insert(newQuestion);
+        // 获取当前问题的所有选项
+        if(question.getType().equals("1")||question.getType().equals("2")) {
+            OptionExample optionExample = new OptionExample();
+            optionExample.createCriteria().andQuestionIdEqualTo(questionId);
+            List<Option> options = optionMapper.selectByExample(optionExample);
+
+            // 复制这些选项
+            for (Option option : options) {
+                Option newOption = new Option();
+                newOption.setQuestionId(newQuestion.getId()); // 设置新问题的ID
+                newOption.setOptionText(option.getOptionText());
+                newOption.setOrder(option.getOrder());
+                optionMapper.insert(newOption);
+            }
+        }
+        return newQuestion;
+
+
+
+    }
 }
