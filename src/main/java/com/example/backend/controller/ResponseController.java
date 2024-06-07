@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.DTO.ResponseDto;
-import com.example.backend.config.SecurityConfig;
 import com.example.backend.service.ResponseServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,7 @@ import java.util.List;
 //ResponseController类是一个控制器类，用于处理回复相关的HTTP请求。
 @RestController
 @RequestMapping("/api/responses")
-public class ResponseController extends SecurityConfig {
+public class ResponseController {
 
     private final ResponseServiceImpl responseServiceImpl;
 

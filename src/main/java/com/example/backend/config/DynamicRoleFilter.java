@@ -3,6 +3,11 @@ package com.example.backend.config;
 import com.example.backend.entity.UserWithRole;
 import com.example.backend.service.JwtTokenProvider;
 import com.example.backend.service.SurveyServiceImpl;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpMethod;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,10 +18,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -38,8 +39,13 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
     static final String DEVELOPER_TOKEN = "123456";
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        System.out.println("bearerToken: " + bearerToken);
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
+        }
+        if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
+            System.out.println("OPTIONS请求，放行");
+            return "123456";
         }
         return null;
     }
@@ -49,96 +55,30 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
 
+
+
+
+        if (request.getMethod().equals("OPTIONS")) {
+            System.out.println("OPTIONS请求，放行");
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         if (jwt == null) {
             System.out.println("JWT is null");
         }
         if(jwt != null && jwt.equals(GUEST_TOKEN)){
             // 对于游客用户, 其具有特殊的token
-            UserDetails guestUser = new UserDetails() {
-                @Override
-                public Collection<? extends GrantedAuthority> getAuthorities() {
-                    return List.of(new SimpleGrantedAuthority("GUEST"));
-                }
-
-                @Override
-                public String getPassword() {
-                    return ""; // 游客用户没有密码
-                }
-
-                @Override
-                public String getUsername() {
-                    return "guest"; // 游客用户的用户名
-                }
-
-                @Override
-                public boolean isAccountNonExpired() {
-                    return true;
-                }
-
-                @Override
-                public boolean isAccountNonLocked() {
-                    return true;
-                }
-
-                @Override
-                public boolean isCredentialsNonExpired() {
-                    return true;
-                }
-
-                @Override
-                public boolean isEnabled() {
-                    return true;
-                }
-            };
-
-            UserWithRole userWithRole = new UserWithRole(guestUser, "GUEST");
+            UserWithRole userWithRole = getUserWithRole();
             System.out.println(userWithRole.getAuthorities());
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userWithRole, null, userWithRole.getAuthorities());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userWithRole, null, userWithRole.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }
         else if(jwt != null && jwt.equals(DEVELOPER_TOKEN)){
             // 开发者
-            UserDetails guestUser = new UserDetails() {
-                @Override
-                public Collection<? extends GrantedAuthority> getAuthorities() {
-                    return List.of(new SimpleGrantedAuthority("DEVELOPER"));
-                }
-
-                @Override
-                public String getPassword() {
-                    return ""; // 游客用户没有密码
-                }
-
-                @Override
-                public String getUsername() {
-                    return "developer"; // 游客用户的用户名
-                }
-
-                @Override
-                public boolean isAccountNonExpired() {
-                    return true;
-                }
-
-                @Override
-                public boolean isAccountNonLocked() {
-                    return true;
-                }
-
-                @Override
-                public boolean isCredentialsNonExpired() {
-                    return true;
-                }
-
-                @Override
-                public boolean isEnabled() {
-                    return true;
-                }
-            };
-
-            UserWithRole userWithRole = new UserWithRole(guestUser, "DEVELOPER");
+            UserWithRole userWithRole = getWithRole();
             System.out.println(userWithRole.getAuthorities());
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userWithRole, null, userWithRole.getAuthorities());
@@ -178,6 +118,88 @@ public class DynamicRoleFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private static UserWithRole getWithRole() {
+        UserDetails guestUser = new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(new SimpleGrantedAuthority("DEVELOPER"));
+            }
+
+            @Override
+            public String getPassword() {
+                return ""; // 游客用户没有密码
+            }
+
+            @Override
+            public String getUsername() {
+                return "developer"; // 游客用户的用户名
+            }
+
+            @Override
+            public boolean isAccountNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isAccountNonLocked() {
+                return true;
+            }
+
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+        };
+
+        return new UserWithRole(guestUser, "DEVELOPER");
+    }
+
+    private static UserWithRole getUserWithRole() {
+        UserDetails guestUser = new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(new SimpleGrantedAuthority("GUEST"));
+            }
+
+            @Override
+            public String getPassword() {
+                return ""; // 游客用户没有密码
+            }
+
+            @Override
+            public String getUsername() {
+                return "guest"; // 游客用户的用户名
+            }
+
+            @Override
+            public boolean isAccountNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isAccountNonLocked() {
+                return true;
+            }
+
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+        };
+
+        return new UserWithRole(guestUser, "GUEST");
     }
 }
 

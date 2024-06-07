@@ -150,7 +150,7 @@
         #{order,jdbcType=BIGINT}
       </when>
         <otherwise>
-          #{id,javaType=BIGINT}
+          #{id,jdbcType=BIGINT}
         </otherwise>
     </choose>
     )

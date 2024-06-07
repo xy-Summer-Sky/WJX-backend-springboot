@@ -20,7 +20,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig  {
 
     @Autowired
     private SurveyServiceImpl surveyService;
@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .cors(customizer -> customizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)  // 禁用 CSRF 防护
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/surveys/{surveyId}/questions/{questionId1}/swap/{questionId2}").hasRole("DEVELOPER")
                         .requestMatchers("/api/responses/**").hasAnyRole("GUEST", "SURVEY_RESPONDENT","DEVELOPER")  // 填写者可以是非问卷发布者或者游客
                         .requestMatchers("/api/message").permitAll() // 基本验证
                         .requestMatchers("/api/surveys/create").hasAnyRole("SURVEY_CREATOR", "SURVEY_RESPONDENT","DEVELOPER")  // 问卷创建需要登录用户才可以访问
@@ -37,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()  // 注册和登录不需要身份验证
                         .requestMatchers("/api/options/**").hasAnyRole("SURVEY_CREATOR","DEVELOPER")  // 选项只能由问卷发布者访问
                         .requestMatchers("/api/**").hasRole("DEVELOPER")
-                        .requestMatchers("/api/surveys/state/addNum/**").hasAnyRole("DEVELOPER")// 开发者角色可以访问所有接口
+                        .requestMatchers("/api/surveys/state/addNum/**?surveyId=*").hasAnyRole("DEVELOPER")// 开发者角色可以访问所有接口
                         .anyRequest().authenticated())  // 其他请求需要身份验证,一般会被 Spring Security 自动拦截并返回一个错误响应
                 .addFilterBefore(dynamicRoleFilter(), UsernamePasswordAuthenticationFilter.class);  // 添加动态角色检查过滤器
 

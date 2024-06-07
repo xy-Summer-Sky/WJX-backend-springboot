@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -85,7 +87,11 @@ public class SurveyController {
 
     @CrossOrigin
     @GetMapping("/responses/download/{surveyId}")
-    public ResponseEntity<InputStreamResource> downloadSurveyResponses(@PathVariable Long surveyId) {
+    public ResponseEntity<InputStreamResource> downloadSurveyResponses(@PathVariable Long surveyId, HttpServletRequest request) {
+        // 获取头部信息
+        String authorizationHeader = request.getHeader("Authorization");
+        System.out.println("Authorization: " + authorizationHeader);
+
         List<QuestionResponse> responses = surveyService.getResponsesForSurvey(surveyId);
         // Use the injected excelFileCreator instance
         String filePath = excelFileCreator.createExcel(responses);

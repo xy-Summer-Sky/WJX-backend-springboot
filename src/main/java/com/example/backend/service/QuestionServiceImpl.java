@@ -25,8 +25,10 @@ public class QuestionServiceImpl implements QuestionServiceInter {
 
     public Question addQuestion(Question question) {
         questionMapper.insert(question);
-        questionMapper.updateOrder(question);
+        System.out.println("question() = " + question.getText());
+        System.out.println("question() = " + question.getId());
 
+        questionMapper.updateOrder(question);
         return question;
     }
 
